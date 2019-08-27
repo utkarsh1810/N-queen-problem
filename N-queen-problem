@@ -1,0 +1,89 @@
+#include <stdio.h>
+int check(int n,int a[n][n],int l,int m)
+{
+    for(int i=0;i<n;i++)
+    {
+        if(a[l][i]==1)
+        return 0;
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(a[i][m]==1)
+        return 0;
+    }
+    int i=l,j=m;
+    while(i>=0 && j>=0)
+    {
+        if(a[i][j]==1)
+        return 0;
+        i--;j--;
+    }
+    i=l,j=m;
+    while(i>=0 && j<n)
+    {
+        if(a[i][j]==1)
+        return 0;
+        i--;j++;
+    }
+    i=l,j=m;
+    while(i<n && j<n)
+    {
+        if(a[i][j]==1)
+        return 0;
+        i++;j++;
+    }
+    i=l,j=m;
+    while(i<n && j>=0)
+    {
+        if(a[i][j]==1)
+        return 0;
+        i++;j--;
+    }
+    return 1;
+}
+void refresh(int n,int a[n][n])
+{
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+        a[i][j]=0;
+}
+void allot(int n,int a[n][n],int l,int m)
+{
+        a[l][m]=1;
+        int j;
+    for(int i=1;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            
+            if(check(n,a,i,j))
+            {
+                
+            a[i][j]=1;
+            break;
+            }  
+        } 
+        if(j==n)
+        {
+            refresh(n,a);
+            allot(n,a,l,m+1);
+        }
+    }
+}
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    int a[n][n];
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+        a[i][j]=0;
+    allot(n,a,0,0);
+    for(int i=0;i<n;i++)
+        {for(int j=0;j<n;j++)
+        printf("%d",a[i][j]);
+        printf("\n");
+        }
+    return 0;
+}
+
